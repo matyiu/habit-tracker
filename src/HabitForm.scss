@@ -7,7 +7,7 @@
     min-height: 71px;
     border: 4px solid $primary-color;
     font-size: 1.5em;
-    padding: 0 20px;
+    padding: 0 20px 30px;
     color: $text-black-color;
 
     &__title {
@@ -27,5 +27,41 @@
     &[data-state="open"] {
         background: $primary-color;
         color: #ffffff;
+    }
+
+    &__date {
+        display: flex;
+        flex-wrap: wrap;
+
+        &__container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+    }
+}
+
+.btn {
+    padding: 15px 20px;
+    font-size: 1rem;
+    background: none;
+    border: none;
+    outline: none;
+    font: {
+        family: 'Roboto', sans-serif;
+        size: 1rem;
+        weight: 400;
+    }
+    box-shadow: 0 2px 4px rgba(black, 0.27);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+        box-shadow: 0 1px 2px rgba(black, 0.27);
+    }
+
+    &--white {
+        background: #ffffff;
+        color: $primary-color;
     }
 }
