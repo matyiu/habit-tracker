@@ -1,0 +1,13 @@
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin: {
+        bottom: 25px;
+        right: 20px;
+    }
+
+    &__title {
+        font-size: 1.25rem;
+        margin-bottom: 10px;
+    }
+}
