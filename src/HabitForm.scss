@@ -8,6 +8,7 @@
     border: 4px solid $primary-color;
     font-size: 1.5em;
     padding: 0 20px;
+    color: $text-black-color;
 
     &__title {
         font-size: inherit;
@@ -15,5 +16,16 @@
         background: none;
         width: 100%;
         height: 71px;
+        color: inherit;
+    }
+
+    &[data-state="open"] &__title {
+        border-bottom: 8px solid #ffffff;
+        margin-bottom: 25px;
+    }
+
+    &[data-state="open"] {
+        background: $primary-color;
+        color: #ffffff;
     }
 }
