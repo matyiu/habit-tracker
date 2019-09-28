@@ -1,14 +1,20 @@
 @import 'variables';
 
 .habit-form {
-    max-width: 650px;
-    width: 100%;
-    margin: 50px auto;
-    min-height: 71px;
-    border: 4px solid $primary-color;
-    font-size: 1.5em;
-    padding: 0 20px 30px;
-    color: $text-black-color;
+    position: relative;
+    
+    &__content {
+        position: relative;
+        z-index: 110;
+        border: 4px solid $primary-color;
+        padding: 0 20px 30px;
+        max-width: 650px;
+        width: 100%;
+        margin: 50px auto;
+        min-height: 71px;
+        font-size: 1.5em;
+        color: $text-black-color;
+    }
 
     &__title {
         font-size: inherit;
@@ -25,8 +31,21 @@
     }
 
     &[data-state="open"] {
-        background: $primary-color;
-        color: #ffffff;
+        z-index: 100;
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(black, 0.20);
+        }
+
+        .habit-form__content {
+            background: $primary-color;
+            color: #ffffff;
+        }
     }
 
     &__date {

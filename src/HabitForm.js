@@ -35,7 +35,8 @@ class HabitForm extends React.Component {
                                 className="input-group__input"
                                 dayPickerProps={{locale: 'en'}}
                                 formatDate={formatDate}
-                                placeholder="" />
+                                placeholder=""
+                                inputProps={{ readOnly: true }} />
                                 <i class="input-group__icon fas fa-calendar"></i>
                             </div>
                         </InputWrapper>
@@ -44,11 +45,14 @@ class HabitForm extends React.Component {
                                 <option value="day">Days</option>
                                 <option value="week">Weeks</option>
                             </Select>
-                            <input type="text" style={{width: '50px'}} className="number" />
+                            <input type="text" style={{width: '50px'}} 
+                            className="number" pattern="[0-9]*"
+                            inputMode="numeric" />
                         </InputWrapper>
                     </div>
                     <button className="btn btn--white">Create Habit</button>
                 </div>
+                <div className="overlay"></div>
             </header>
         );
     }
