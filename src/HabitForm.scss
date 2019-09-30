@@ -2,18 +2,26 @@
 
 .habit-form {
     position: relative;
+    height: 71px;
     
     &__content {
+        margin: 50px auto;
         position: relative;
         z-index: 110;
         border: 4px solid $primary-color;
         padding: 0 20px 30px;
         max-width: 650px;
         width: 100%;
-        margin: 50px auto;
-        min-height: 71px;
         font-size: 1.5em;
         color: $text-black-color;
+        transition: background 0.4s ease-out;
+    }
+
+    &[data-state="closed"] &__content {
+        padding: {
+            top: 0;
+            bottom: 0;
+        }
     }
 
     &__title {
@@ -28,6 +36,14 @@
     &[data-state="open"] &__title {
         border-bottom: 8px solid #ffffff;
         margin-bottom: 25px;
+    }
+
+    &__options {
+        overflow: hidden;
+    }
+
+    &[data-state="closed"] &__options {
+        display: none;
     }
 
     &[data-state="open"] {
