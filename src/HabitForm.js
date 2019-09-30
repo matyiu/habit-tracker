@@ -31,10 +31,9 @@ class HabitForm extends React.Component {
         if (this.state.open && e.target != this.overlay.current) {
             return;
         }
-
-        this.setState({ open: !this.state.open }, () => {
-            slideToggle(this.habitFormOptions, 300);
-        });
+        
+        slideToggle(this.habitFormOptions, 300);
+        this.setState({ open: !this.state.open });
     }
 
     render() {
