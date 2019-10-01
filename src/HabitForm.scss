@@ -39,10 +39,6 @@
         margin-bottom: 25px;
     }
 
-    &__options {
-        overflow: hidden;
-    }
-
     &[data-state="closed"] &__options {
         display: none;
     }
