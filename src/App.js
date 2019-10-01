@@ -16,7 +16,6 @@ class App extends React.Component {
   }
 
   update() {
-    console.log(this.habitList);
     this.setState({
       habits: this.habitList.get()
     });
@@ -29,7 +28,8 @@ class App extends React.Component {
         <div className="habit-list">
           <div className="container">
             <div className="row row--column">
-              {this.state.habits.map(habit => <Habit key={ habit.id } />)}
+              {this.state.habits.map(habit => 
+              <Habit key={ habit.id } habitOptions={habit} />)}
             </div>
           </div>
         </div>

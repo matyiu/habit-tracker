@@ -1,6 +1,30 @@
 import React from 'react';
 import './Habit.scss';
 import { slideToggle } from '../utils/animationEffects';
+import { DateUtils } from 'react-day-picker';
+
+/**
+ * Crear calendario
+ * - Calcular numero de semanas
+ * - Crear semana por semana
+ *   - Crear día
+ *     - Si es la primera semana crear celdas vacías hasta llegar a día
+ *     - Si es la última continuar con los días hasta que nos pasemos
+ */
+
+function getDay(day, startDay) {
+    const daysOfTheWeek = {
+        sunday: 0,
+        monday: 1,
+        tuesday: 2,
+        wednesday: 3,
+        thursday: 4,
+        friday: 5,
+        saturday: 6
+    }
+
+    return (day + 7 - daysOfTheWeek[startDay]) % 7;
+}
 
 class Habit extends React.Component {
     constructor(props) {
@@ -18,17 +42,80 @@ class Habit extends React.Component {
         this.setState({ open: !this.state.open });
     }
 
+    renderCalendar() {
+        const { duration, startDate } = this.props.habitOptions;
+        this.startDate = startDate;
+        const currDay = new Date(startDate.getTime());
+
+        let totalWeeks = (duration.type === 'week') ? Number(duration.value) :
+            Math.ceil(duration.value / 7);
+        const totalDays = (duration.type === 'day') ? Number(duration.value) :
+            duration.value * 7;
+
+        this.endDate = new Date(startDate.getTime());
+        this.endDate.setDate(Number(duration.type === 'day' 
+            ? duration.value : totalWeeks * 7) + currDay.getDate() - 1);
+
+        if ((getDay(currDay.getDay(), 'monday') > 0) && (totalDays % 7) === 0) {
+            totalWeeks += 1;
+        }
+        
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const weeks = [];
+        for (let y = 0; y < totalWeeks; y++) {
+            const days = [];
+            for (let x = 0; x < 7; x++) {
+                let todayStyle;
+
+                let day;
+                if ((y == 0 && (getDay(currDay.getDay(), 'monday') > x)) ||
+                    DateUtils.isDayAfter(currDay, this.endDate)) {
+                    day = '';
+                } else {
+                    todayStyle = DateUtils.isSameDay(today, currDay) ? {
+                        boxShadow: '0 -6px 0 #0E9F85 inset'
+                    } : {};
+                    day = currDay.getDate();
+                    currDay.setDate(currDay.getDate() + 1);
+                }
+
+                days.push(
+                    <td className="calendar__cell calendar__cell--day" style={todayStyle} key={x + y * 7}>{ day }</td>
+                );
+
+            }
+            weeks.push(
+                <tr className="calendar__row" key={y}>
+                    { days }
+                </tr>
+            );
+        }
+
+        return weeks;
+    }
+
     render() {
+        const weeks = this.renderCalendar();
+        const today = DateUtils.isDayInRange(new Date(), {
+            from: this.startDate,
+            to: this.endDate
+        });
+
         return (
             <div className="habit habit--full" 
             data-state={this.state.open ? 'open' : 'closed'}>
                 <header className="habit__header" onClick={this.habitToggle}>
                     <span className="habit__title">
                         <i className="habit__header__icon fas fa-angle-down"></i>
-                        Habit #1
+                        { this.props.habitOptions.name }
                     </span>
                     <div className="habit__header__action">
-                        <button className="btn btn--habit habit__btn-day">30</button>
+                        { 
+                            !today || 
+                            <button className="btn btn--habit habit__btn-day">{ (new Date()).getDate() }</button> 
+                        }
                         <button className="btn btn--habit habit__btn-options">
                             <i className="fas fa-ellipsis-v"></i>
                         </button>
@@ -49,45 +136,7 @@ class Habit extends React.Component {
                             </tr>
                         </thead>
                         <tbody className="calendar__body">
-                            <tr className="calendar__row">
-                                <td className="calendar__cell calendar__cell--day">30</td>
-                                <td className="calendar__cell calendar__cell--day">
-                                    1
-                                    <span className="calendar__new-month">Oct</span>
-                                </td>
-                                <td className="calendar__cell calendar__cell--day">2</td>
-                                <td className="calendar__cell calendar__cell--day">3</td>
-                                <td className="calendar__cell calendar__cell--day">4</td>
-                                <td className="calendar__cell calendar__cell--day">5</td>
-                                <td className="calendar__cell calendar__cell--day">6</td>
-                            </tr>
-                            <tr className="calendar__row">
-                                <td className="calendar__cell calendar__cell--day">7</td>
-                                <td className="calendar__cell calendar__cell--day">8</td>
-                                <td className="calendar__cell calendar__cell--day">9</td>
-                                <td className="calendar__cell calendar__cell--day">10</td>
-                                <td className="calendar__cell calendar__cell--day">11</td>
-                                <td className="calendar__cell calendar__cell--day">12</td>
-                                <td className="calendar__cell calendar__cell--day">13</td>
-                            </tr>
-                            <tr className="calendar__row">
-                                <td className="calendar__cell calendar__cell--day">14</td>
-                                <td className="calendar__cell calendar__cell--day">15</td>
-                                <td className="calendar__cell calendar__cell--day">16</td>
-                                <td className="calendar__cell calendar__cell--day">17</td>
-                                <td className="calendar__cell calendar__cell--day">18</td>
-                                <td className="calendar__cell calendar__cell--day">19</td>
-                                <td className="calendar__cell calendar__cell--day">20</td>
-                            </tr>
-                            <tr className="calendar__row">
-                                <td className="calendar__cell calendar__cell--day">21</td>
-                                <td className="calendar__cell calendar__cell--day">22</td>
-                                <td className="calendar__cell calendar__cell--day">23</td>
-                                <td className="calendar__cell calendar__cell--day">24</td>
-                                <td className="calendar__cell calendar__cell--day">25</td>
-                                <td className="calendar__cell calendar__cell--day">26</td>
-                                <td className="calendar__cell calendar__cell--day">27</td>
-                            </tr>
+                            { weeks }
                         </tbody>
                     </table>
                 </div>

@@ -6,7 +6,6 @@ import { LocaleUtils } from 'react-day-picker';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import { slideToggle } from './utils/animationEffects';
-import HabitList from './storage/habit.js';
 
 function formatDate(date, format, locale) {
     const month = LocaleUtils.formatMonthTitle(date, locale);
@@ -35,7 +34,7 @@ class HabitForm extends React.Component {
 
         this.state = {
             open: false,
-            title: '',
+            name: '',
             type: {
                 name: 'daily'
             },
@@ -63,10 +62,11 @@ class HabitForm extends React.Component {
     }
 
     submit() {
-        const { title, type, startDate, duration } = this.state;
-        const options = { title, type, startDate, duration };
+        const { name, type, startDate, duration } = this.state;
+        const options = { name, type, startDate, duration };
 
         this.habitList.add(options);
+        console.log(this.state);
         this.overlay.current.click();
         this.clearForm();
         this.props.update();
@@ -74,7 +74,7 @@ class HabitForm extends React.Component {
 
     clearForm() {
         this.setState({
-            title: '',
+            name: '',
             type: {
                 name: 'daily'
             },
@@ -94,8 +94,8 @@ class HabitForm extends React.Component {
                     <input type="text" 
                     placeholder="Add a habit" 
                     className="habit-form__title" onFocus={this.toggle}
-                    onChange={(e) => this.setState({ title: e.target.value })} 
-                    value={this.state.title} />
+                    onChange={(e) => this.setState({ name: e.target.value })} 
+                    value={this.state.name} />
                     <div className="habit-form__options"
                     ref={(options) => this.habitFormOptions = options}
                     style={{ display: 'none' }}>
@@ -126,7 +126,7 @@ class HabitForm extends React.Component {
                             </InputWrapper>
                             <InputWrapper title="Duration">
                                 <Select width="110px" className="input-group__input"
-                                onChange={(e) => this.setState({ duration: { type: e.target.value } })}
+                                onChange={(e) => this.setState({ duration: { ...this.state.duration, type: e.target.value } })}
                                 value={this.state.duration.type}>
                                     <option value="day">Days</option>
                                     <option value="week">Weeks</option>
@@ -134,7 +134,7 @@ class HabitForm extends React.Component {
                                 <input type="text" style={{width: '50px'}} 
                                 className="number" pattern="[0-9]*"
                                 inputMode="numeric"
-                                onChange={(e) => this.setState({ duration: { value: e.target.value } })}
+                                onChange={(e) => this.setState({ duration: { ...this.state.duration, value: e.target.value } })}
                                 value={this.state.duration.value} />
                             </InputWrapper>
                         </div>
