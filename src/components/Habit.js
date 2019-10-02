@@ -3,15 +3,6 @@ import './Habit.scss';
 import { slideToggle } from '../utils/animationEffects';
 import { DateUtils } from 'react-day-picker';
 
-/**
- * Crear calendario
- * - Calcular numero de semanas
- * - Crear semana por semana
- *   - Crear día
- *     - Si es la primera semana crear celdas vacías hasta llegar a día
- *     - Si es la última continuar con los días hasta que nos pasemos
- */
-
 function getDay(day, startDay) {
     const daysOfTheWeek = {
         sunday: 0,
