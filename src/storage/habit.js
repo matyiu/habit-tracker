@@ -38,7 +38,8 @@ class HabitList {
 
     remove(id) {
         this._newHabitData();
-        this.habits = this.habits.filter(habit => habit !== id);
+        this.habits = this.habits.filter(habit => habit.id !== id);
+        this.save();
     }
 
     update(id, options) {
