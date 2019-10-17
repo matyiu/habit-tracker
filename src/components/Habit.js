@@ -108,7 +108,10 @@ class Habit extends React.Component {
                             <button className="btn btn--habit habit__btn-day">{ (new Date()).getDate() }</button> 
                         }
                         <button className="btn btn--habit habit__btn-options"
-                        onClick={this.props.displayHabitOptions}>
+                        onClick={(e) => {
+                            this.props.displayHabitOptions(e);
+                            this.props.setId(this.props.habitOptions.id);
+                        }}>
                             <i className="fas fa-ellipsis-v"></i>
                         </button>
                     </div>

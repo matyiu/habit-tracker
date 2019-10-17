@@ -18,6 +18,7 @@ class App extends React.Component {
     this.update = this.update.bind(this);
     this.displayHabitOptions = this.displayHabitOptions.bind(this);
     this.dropdownClickOutside = this.dropdownClickOutside.bind(this);
+    this.setId = this.setId.bind(this);
   }
 
   update() {
@@ -47,6 +48,10 @@ class App extends React.Component {
     }
   }
 
+  setId(id) {
+    this.setState({ id });
+  }
+
   componentDidMount() {
     window.addEventListener('click', this.dropdownClickOutside);
   }
@@ -63,10 +68,15 @@ class App extends React.Component {
           <div className="container">
             <div className="row row--column">
               { this.state.dropdown &&
-              <HabitOptions coords={this.state.activeCoords} /> }
+              <HabitOptions 
+              storage={this.habitList}
+              update={this.update}
+              coords={this.state.activeCoords}
+              id={this.state.id} /> }
               {this.state.habits.map(habit => 
               <Habit key={ habit.id } habitOptions={habit}
-              displayHabitOptions={this.displayHabitOptions} />)}
+              displayHabitOptions={this.displayHabitOptions}
+              setId={this.setId} />)}
             </div>
           </div>
         </div>
