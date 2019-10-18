@@ -1,7 +1,7 @@
 import React from 'react';
 import './dropdown.scss'
 
-export function Dropdown({ coords, className, ...props }) {
+export function Dropdown({ coords, className, setRef, ...props }) {
     const { top, right, bottom, left } = coords;
     const style = {
         position: 'absolute',
@@ -14,7 +14,8 @@ export function Dropdown({ coords, className, ...props }) {
     return (
         <div {...props} 
         style={style}
-        className={['dropdown', className].join(' ')}>
+        className={['dropdown', className].join(' ')}
+        ref={setRef}>
             { props.children }
         </div>
     );

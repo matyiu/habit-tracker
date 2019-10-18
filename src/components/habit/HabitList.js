@@ -1,6 +1,8 @@
 import React from "react";
 import Habit from '../Habit';
 import HabitOptions from '../dropdown/HabitOptions';
+import HabitDayMenu from "../dropdown/HabitDayMenu";
+import { calcDropdownPosition } from "../dropdown/dropdownUtils";
 
 class HabitList extends React.Component {
     constructor(props) {
@@ -8,11 +10,16 @@ class HabitList extends React.Component {
 
         this.state = {
             dropdown: false,
+            dayMenu: false,
             activeCoords: {}
         }
 
         this.dropdownClickOutside = this.dropdownClickOutside.bind(this);
         this.displayHabitOptions = this.displayHabitOptions.bind(this);
+        this.setDayMenuRef = this.setDayMenuRef.bind(this);
+        this.displayDayMenu = this.displayDayMenu.bind(this);
+
+        this.dayMenu = React.createRef();
     }
 
     componentDidMount() {
@@ -26,6 +33,10 @@ class HabitList extends React.Component {
     dropdownClickOutside() {
         if (this.state.dropdown) {
             this.setState({ dropdown: false });
+        } 
+        
+        if (this.state.dayMenu) {
+            this.setState({ dayMenu: false });
         }
     }
 
@@ -44,6 +55,28 @@ class HabitList extends React.Component {
         this.setState({ activeCoords: { top, right } });
     }
 
+    displayDayMenu(e) {
+        e.stopPropagation();
+        const cell = e.currentTarget;
+        const lastDayMenuState = this.state.dayMenu;
+        this.setState({ dayMenu: true }, () => {
+            const coords = calcDropdownPosition(this.dayMenu, cell);
+            if (lastDayMenuState &&
+                this.state.activeCoords.top === coords.y && 
+                this.state.activeCoords.left === coords.x) {
+                this.setState({ dayMenu: false });
+            }
+            this.setState({ activeCoords: {
+                left: coords.x,
+                top: coords.y
+            } });
+        });
+    }
+
+    setDayMenuRef(elm) {
+        this.dayMenu = elm;
+    }
+
     render() {
         const { storage, update, id, habits, setId, toggleEditor } = this.props;
 
@@ -58,10 +91,15 @@ class HabitList extends React.Component {
                     coords={this.state.activeCoords}
                     id={id}
                     toggleEditor={toggleEditor} /> }
+                    { this.state.dayMenu &&
+                        <HabitDayMenu coords={this.state.activeCoords} 
+                        setRef={this.setDayMenuRef} />
+                    }
                     {habits.map(habit => 
                     <Habit key={ habit.id } habitOptions={habit}
                     displayHabitOptions={this.displayHabitOptions}
-                    setId={setId} />)}
+                    setId={setId}
+                    displayDayMenu={this.displayDayMenu} />)}
                     </div>
                 </div>  
             </div>

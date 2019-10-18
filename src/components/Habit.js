@@ -73,7 +73,8 @@ class Habit extends React.Component {
                 }
 
                 days.push(
-                    <td className="calendar__cell calendar__cell--day" style={todayStyle} key={x + y * 7}>{ day }</td>
+                    <td className="calendar__cell calendar__cell--day" style={todayStyle} key={x + y * 7}
+                    onClick={ day ? this.props.displayDayMenu : null }>{ day }</td>
                 );
 
             }
