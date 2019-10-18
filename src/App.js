@@ -9,11 +9,15 @@ class App extends React.Component {
     super(props);
     this.habitStorage = new HabitStorage();
     this.state = {
-      habits: this.habitStorage.get()
+      habits: this.habitStorage.get(),
+      id: null
     }
 
     this.update = this.update.bind(this);
     this.setId = this.setId.bind(this);
+    this.toggleEditor = this.toggleEditor.bind(this);
+
+    this.habitFormElement = React.createRef();
   }
 
   update() {
@@ -26,12 +30,20 @@ class App extends React.Component {
     this.setState({ id });
   }
 
+  toggleEditor(e) {
+    this.habitFormElement.current.toggle(e);
+    this.habitFormElement.current.populateState();
+  }
+
   render() {
     return (
       <>
-        <HabitForm storage={this.habitStorage} update={this.update} />
+        <HabitForm storage={this.habitStorage} update={this.update}
+        ref={this.habitFormElement} toggleEditor={this.toggleEditor}
+        id={this.state.id} setId={this.setId} />
         <HabitList storage={this.habitStorage} update={this.update}
-        id={this.state.id} habits={this.state.habits} setId={this.setId} />
+        id={this.state.id} habits={this.state.habits} setId={this.setId}
+        toggleEditor={this.toggleEditor} />
       </>
     );
   }

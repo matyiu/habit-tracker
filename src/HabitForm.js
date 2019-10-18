@@ -64,9 +64,14 @@ class HabitForm extends React.Component {
     submit() {
         const { name, type, startDate, duration } = this.state;
         const options = { name, type, startDate, duration };
+        const { id, setId } = this.props;
 
-        this.habitList.add(options);
-        console.log(this.state);
+        if (id) {
+            this.habitList.update(id, options);
+            setId(null);
+        } else {
+            this.habitList.add(options);
+        }
         this.overlay.current.click();
         this.clearForm();
         this.props.update();
@@ -83,6 +88,19 @@ class HabitForm extends React.Component {
                 type: 'day',
                 value: ''
             }
+        });
+    }
+
+    populateState() {
+        const { id } = this.props;
+        const habit = this.habitList.get(id);
+        const { name, type, startDate, duration } = habit
+
+        this.setState({
+            name,
+            type,
+            startDate,
+            duration
         });
     }
 
@@ -139,7 +157,8 @@ class HabitForm extends React.Component {
                             </InputWrapper>
                         </div>
                         <button className="btn btn--white"
-                        onClick={this.submit}>Create Habit</button>
+                        onClick={this.submit}>{ this.props.id ?
+                        'Modify Habit' : 'Create Habit' }</button>
                     </div>
                 </div>
                 <div className="overlay" ref={this.overlay}

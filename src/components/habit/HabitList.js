@@ -45,7 +45,7 @@ class HabitList extends React.Component {
     }
 
     render() {
-        const { storage, update, id, habits, setId } = this.props;
+        const { storage, update, id, habits, setId, toggleEditor } = this.props;
 
         return (
             <div className="habit-list">
@@ -56,7 +56,8 @@ class HabitList extends React.Component {
                     storage={storage}
                     update={update}
                     coords={this.state.activeCoords}
-                    id={id} /> }
+                    id={id}
+                    toggleEditor={toggleEditor} /> }
                     {habits.map(habit => 
                     <Habit key={ habit.id } habitOptions={habit}
                     displayHabitOptions={this.displayHabitOptions}
