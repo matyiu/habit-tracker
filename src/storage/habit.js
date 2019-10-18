@@ -51,6 +51,7 @@ class HabitList {
         
         this._newHabitData();
         this.habits[index] = updatedHabit;
+        this.save();
     }
 
     _newHabitData() {
