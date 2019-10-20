@@ -1,0 +1,29 @@
+@import 'variables';
+
+.success-day {
+    width: 38px;
+    height: 38px;
+    background: $success-color;
+    border-radius: 50px;
+
+    &--small {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+.failure-day {
+    font-size: 48px;
+    color: $failure-color;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &--small {
+        font-size: 32px;
+        width: 24px;
+        height: 24px;
+    }
+}

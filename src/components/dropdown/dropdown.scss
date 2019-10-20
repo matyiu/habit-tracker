@@ -7,9 +7,15 @@
     &__item {
         padding: 15px 35px;
         font-size: 1.25em;
+        display: flex;
+        align-items: center;
 
         &:hover {
             background: adjust-color($color: white, $lightness: -5%);
         }
     }
+}
+
+.habit-day__icon {
+    margin-right: 10px;
 }

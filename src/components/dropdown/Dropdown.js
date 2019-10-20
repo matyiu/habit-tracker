@@ -30,9 +30,10 @@ Dropdown.defaultProps = {
     }
 }
 
-export function DropdownItem({text, className, ...props}) {
+export function DropdownItem({text, className, icon, ...props}) {
     return (
         <button { ...props } className={['btn btn--no-shadow dropdown__item', className].join(' ')}>
+            { icon }
             { text }
         </button>
     );
