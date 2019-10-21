@@ -21,8 +21,8 @@ function calcMiddlePointFromDom(elm) {
     const coords = elm.getBoundingClientRect();
 
     return {
-        x: coords.x + elm.offsetWidth / 2,
-        y: coords.y + elm.offsetHeight / 2
+        x: coords.left + elm.offsetWidth / 2,
+        y: coords.top + elm.offsetHeight / 2
     };
 }
 

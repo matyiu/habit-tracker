@@ -46,8 +46,8 @@ class HabitList extends React.Component {
         e.stopPropagation();
         this.setState({ dropdown: true });
         const icon = e.currentTarget.querySelector('i');
-        const x = icon.getBoundingClientRect().x;
-        const y = icon.getBoundingClientRect().y;
+        const x = icon.getBoundingClientRect().left;
+        const y = icon.getBoundingClientRect().top;
         const top = y + icon.offsetHeight + 5;
         const right = window.innerWidth - x - icon.offsetWidth;
         if (top === this.state.activeCoords.top && this.state.dropdown) {
