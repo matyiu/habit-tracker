@@ -29,9 +29,9 @@ export default function HabitDayMenu({ setRef, id, storage, update, day, ...prop
 
     return (
         <Dropdown setRef={setRef} {...props}>
-            <DropdownItem text="Success" icon={<div className="habit-day__icon success-day success-day--small"></div>}
+            <DropdownItem text="Completed" icon={<div className="habit-day__icon success-day success-day--small"></div>}
             onClick={() => { setDayState('completed'); }} />
-            <DropdownItem text="Failure" icon={<i className="habit-day__icon failure-day failure-day--small fas fa-times"></i>}
+            <DropdownItem text="Missed" icon={<i className="habit-day__icon failure-day failure-day--small fas fa-times"></i>}
             onClick={() => { setDayState('missed'); }} />
         </Dropdown>
     );
