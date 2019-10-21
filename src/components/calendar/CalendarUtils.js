@@ -65,8 +65,8 @@ function getWeekCompletedGroups(weekDates, dayStates, limits) {
     }
 
     const lastGroup = completedGroupsList[completedGroupsList.length - 1];
-    if (lastGroup && getDay(lastGroup.dates[0].getDay(), 'monday') === 6) {
-        lastGroup.after = checkNextWeekCompletedDay(lastGroup.dates[0], completedDays, endDate);
+    if (lastGroup && getDay(lastGroup.dates[lastGroup.dates.length - 1].getDay(), 'monday') === 6) {
+        lastGroup.after = checkNextWeekCompletedDay(lastGroup.dates[lastGroup.dates.length - 1], completedDays, endDate);
     }
 
     return completedGroupsList;
