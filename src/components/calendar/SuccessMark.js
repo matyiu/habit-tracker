@@ -10,7 +10,7 @@ export default function SuccessMark(props) {
             x: start * cellWidth,
             y: 0
           };
-    const MIDDLE_POINT_WIDTH = 19;
+    const MIDDLE_POINT_WIDTH = (19 * rowWidth) / 642;
     let width = (dates.length * cellWidth) - (MIDDLE_POINT_WIDTH * 2);
     let left = coords.x + MIDDLE_POINT_WIDTH;
     if (before) {

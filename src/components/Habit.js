@@ -11,10 +11,15 @@ class Habit extends React.Component {
 
         this.state = {
             open: false,
+            windowSize: {
+                width: null,
+                height: null
+            }
         }
 
         this.habitToggle = this.habitToggle.bind(this);
         this.setActiveHabit = this.setActiveHabit.bind(this);
+        this.resizeHandler = this.resizeHandler.bind(this);
 
         this.calendarBody = React.createRef();
     }
@@ -100,6 +105,23 @@ class Habit extends React.Component {
         }
 
         return weeks;
+    }
+
+    resizeHandler() {
+        this.setState({
+            windowSize: {
+                width: window.innerWidth,
+                height: window.innerHeight
+            }
+        });
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.resizeHandler);
+    }
+
+    componentWillUnmount() {
+        window.addEventListener('resize', this.resizeHandler);
     }
 
     render() {
