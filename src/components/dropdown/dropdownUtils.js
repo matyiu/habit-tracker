@@ -10,7 +10,7 @@ function checkAlignment({ x, y, xEnd, yEnd }) {
         alignment.x = 'right';
     }
 
-    if (yEnd > window.innerHeight - 10) {
+    if (yEnd > (window.innerHeight + window.scrollY) - 10) {
         alignment.y = 'top';
     }
 
@@ -21,8 +21,8 @@ function calcMiddlePointFromDom(elm) {
     const coords = elm.getBoundingClientRect();
 
     return {
-        x: coords.left + elm.offsetWidth / 2,
-        y: coords.top + elm.offsetHeight / 2
+        x: (coords.left + window.scrollX) + elm.offsetWidth / 2,
+        y: (coords.top + window.scrollY) + elm.offsetHeight / 2
     };
 }
 
