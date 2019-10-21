@@ -20,6 +20,9 @@ class Habit extends React.Component {
         this.habitToggle = this.habitToggle.bind(this);
         this.setActiveHabit = this.setActiveHabit.bind(this);
         this.resizeHandler = this.resizeHandler.bind(this);
+        
+        this.today = new Date();
+        this.today.setHours(0, 0, 0, 0);
 
         this.calendarBody = React.createRef();
     }
@@ -39,6 +42,7 @@ class Habit extends React.Component {
         const { duration, startDate, dayStates } = this.props.habitOptions;
         this.startDate = startDate;
         const currDay = new Date(startDate.getTime());
+        currDay.setHours(0, 0, 0, 0);
 
         let totalWeeks = (duration.type === 'week') ? Number(duration.value) :
             Math.ceil(duration.value / 7);
@@ -142,7 +146,10 @@ class Habit extends React.Component {
                     <div className="habit__header__action">
                         { 
                             !today || 
-                            <button className="btn btn--habit habit__btn-day">{ (new Date()).getDate() }</button> 
+                            <button className="btn btn--habit habit__btn-day"
+                            onClick={e => this.setActiveHabit(e, this.today) }>
+                                { (new Date()).getDate() }
+                            </button> 
                         }
                         <button className="btn btn--habit habit__btn-options"
                         onClick={(e) => {
