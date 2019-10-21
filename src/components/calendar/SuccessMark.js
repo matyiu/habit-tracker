@@ -16,7 +16,7 @@ export default function SuccessMark(props) {
     if (before) {
       width += cellWidth;
       left -= cellWidth;
-    } else if (after) {
+    } if (after) {
       width += cellWidth;
     }
     const style = {
