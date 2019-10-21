@@ -68,6 +68,7 @@
 .calendar {
     width: 100%;
     display: block;
+    overflow: hidden;
 
     &__header {
         display: block;
@@ -84,7 +85,9 @@
         height: 50%;
         color: $text-black-color;
         display: flex;
+        align-items: center;
         width: 100%;
+        position: relative;
         
         &--header {
             color: $text-white-color;
@@ -94,7 +97,9 @@
     
     &__cell {
         text-align: center;
-        flex: 1;        
+        flex: 1;
+        position: relative;
+        z-index: 1;
         
         &--header {
             padding: 7px 0;

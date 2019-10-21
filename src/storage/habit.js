@@ -4,6 +4,15 @@ class HabitList {
         this.habits = JSON.parse(habits) || [];
         this.habits.forEach(habit => {
             habit.startDate = new Date(habit.startDate);
+            if (!habit.dayStates || !(habit.dayStates instanceof Array)) {
+                habit.dayStates = [];
+            }
+
+            habit.dayStates = habit.dayStates.map(day => {
+                const { state } = day;
+
+                return { date: new Date(day.date), state };
+            });
         });
 
         const id = localStorage.getItem('habit_tracker[id]');
@@ -14,7 +23,7 @@ class HabitList {
         const id = this._newId();
         const { name, startDate, duration, type } = options;
         this._newHabitData();
-        this.habits.push({ id, name, startDate, duration, type });
+        this.habits.push({ id, name, startDate, duration, type, dayStates: [] });
         this.save();
     }
 
@@ -44,9 +53,8 @@ class HabitList {
 
     update(id, options) {
         const habit = this.get(id);
-        const { name, startDate, duration, type } = options;
         const updatedHabit = Object.assign({}, habit, 
-            { id, name, startDate, duration, type });
+            { id, ...options });
         const index = this.habits.indexOf(habit);
         
         this._newHabitData();

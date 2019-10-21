@@ -11,13 +11,15 @@ class HabitList extends React.Component {
         this.state = {
             dropdown: false,
             dayMenu: false,
-            activeCoords: {}
+            activeCoords: {},
+            activeDay: null
         }
 
         this.dropdownClickOutside = this.dropdownClickOutside.bind(this);
         this.displayHabitOptions = this.displayHabitOptions.bind(this);
         this.setDayMenuRef = this.setDayMenuRef.bind(this);
         this.displayDayMenu = this.displayDayMenu.bind(this);
+        this.setDay = this.setDay.bind(this);
 
         this.dayMenu = React.createRef();
     }
@@ -77,6 +79,10 @@ class HabitList extends React.Component {
         this.dayMenu = elm;
     }
 
+    setDay(day) {
+        this.setState({ activeDay: day });
+    }
+
     render() {
         const { storage, update, id, habits, setId, toggleEditor } = this.props;
 
@@ -93,13 +99,15 @@ class HabitList extends React.Component {
                     toggleEditor={toggleEditor} /> }
                     { this.state.dayMenu &&
                         <HabitDayMenu coords={this.state.activeCoords} 
-                        setRef={this.setDayMenuRef} />
+                        setRef={this.setDayMenuRef} storage={storage} update={update}
+                        id={id} day={this.state.activeDay} />
                     }
                     {habits.map(habit => 
                     <Habit key={ habit.id } habitOptions={habit}
                     displayHabitOptions={this.displayHabitOptions}
                     setId={setId}
-                    displayDayMenu={this.displayDayMenu} />)}
+                    displayDayMenu={this.displayDayMenu}
+                    setDay={this.setDay} />)}
                     </div>
                 </div>  
             </div>

@@ -10,6 +10,11 @@
         width: 24px;
         height: 24px;
     }
+
+    &--calendar {
+        position: absolute;
+        transition: width 0.3s ease-in-out;
+    }
 }
 
 .failure-day {
@@ -25,5 +30,10 @@
         font-size: 32px;
         width: 24px;
         height: 24px;
+    }
+
+    &--calendar {
+        position: absolute;
+        z-index: -1;
     }
 }

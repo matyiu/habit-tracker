@@ -2,20 +2,8 @@ import React from 'react';
 import './Habit.scss';
 import { slideToggle } from '../utils/animationEffects';
 import { DateUtils } from 'react-day-picker';
-
-function getDay(day, startDay) {
-    const daysOfTheWeek = {
-        sunday: 0,
-        monday: 1,
-        tuesday: 2,
-        wednesday: 3,
-        thursday: 4,
-        friday: 5,
-        saturday: 6
-    }
-
-    return (day + 7 - daysOfTheWeek[startDay]) % 7;
-}
+import { getDay, getWeekCompletedGroups, findDay } from "./calendar/CalendarUtils";
+import SuccessMark from './calendar/SuccessMark';
 
 class Habit extends React.Component {
     constructor(props) {
@@ -26,6 +14,9 @@ class Habit extends React.Component {
         }
 
         this.habitToggle = this.habitToggle.bind(this);
+        this.setActiveHabit = this.setActiveHabit.bind(this);
+
+        this.calendarBody = React.createRef();
     }
 
     habitToggle() {
@@ -33,8 +24,14 @@ class Habit extends React.Component {
         this.setState({ open: !this.state.open });
     }
 
+    setActiveHabit(e, day) {
+        this.props.displayDayMenu(e);
+        this.props.setId(this.props.habitOptions.id);
+        this.props.setDay(day);
+    }
+
     renderCalendar() {
-        const { duration, startDate } = this.props.habitOptions;
+        const { duration, startDate, dayStates } = this.props.habitOptions;
         this.startDate = startDate;
         const currDay = new Date(startDate.getTime());
 
@@ -57,10 +54,11 @@ class Habit extends React.Component {
         const weeks = [];
         for (let y = 0; y < totalWeeks; y++) {
             const days = [];
+            const weekDates = [];
             for (let x = 0; x < 7; x++) {
                 let todayStyle;
 
-                let day;
+                let day, dayToSave, currDayState;
                 if ((y == 0 && (getDay(currDay.getDay(), 'monday') > x)) ||
                     DateUtils.isDayAfter(currDay, this.endDate)) {
                     day = '';
@@ -69,17 +67,33 @@ class Habit extends React.Component {
                         boxShadow: '0 -6px 0 #0E9F85 inset'
                     } : {};
                     day = currDay.getDate();
+                    dayToSave = new Date(currDay.getTime());
                     currDay.setDate(currDay.getDate() + 1);
+                    weekDates.push(dayToSave);
+                    currDayState = dayStates.find((dayState) => findDay(dayState, dayToSave));
                 }
 
                 days.push(
                     <td className="calendar__cell calendar__cell--day" style={todayStyle} key={x + y * 7}
-                    onClick={ day ? this.props.displayDayMenu : null }>{ day }</td>
+                    onClick={ day ? (e) => {
+                        this.setActiveHabit(e, dayToSave);
+                    } : null }>
+                        { (currDayState && currDayState.state === 'missed') &&
+                        <i className="failure-day failure-day--calendar fas fa-times"></i> }
+                        { day }
+                    </td>
                 );
 
             }
+            const weekCompletedGroups = getWeekCompletedGroups(weekDates, dayStates, {
+                startDate: this.startDate,
+                endDate: this.endDate
+            });
+            
             weeks.push(
                 <tr className="calendar__row" key={y}>
+                    {this.calendarBody.current && 
+                        weekCompletedGroups.map(group => <SuccessMark key={group.dates[0]} completedGroup={group} parent={this.calendarBody} />)}
                     { days }
                 </tr>
             );
@@ -131,7 +145,7 @@ class Habit extends React.Component {
                                 <th className="calendar__cell calendar__cell--header">Sun</th>
                             </tr>
                         </thead>
-                        <tbody className="calendar__body">
+                        <tbody className="calendar__body" ref={this.calendarBody}>
                             { weeks }
                         </tbody>
                     </table>
