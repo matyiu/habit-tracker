@@ -68,7 +68,7 @@ class Habit extends React.Component {
                 let todayStyle;
 
                 let day, dayToSave, currDayState;
-                if ((y == 0 && (getDay(currDay.getDay(), 'monday') > x)) ||
+                if ((y === 0 && (getDay(currDay.getDay(), 'monday') > x)) ||
                     DateUtils.isDayAfter(currDay, this.endDate)) {
                     day = '';
                 } else {

@@ -9,7 +9,7 @@ function Select(props) {
             onChange={props.onChange} value={props.value}>
                 {props.children}
             </select>
-            <i class="select__icon fas fa-angle-down"></i>
+            <i className="select__icon fas fa-angle-down"></i>
         </div>
     );
 }

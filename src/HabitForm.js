@@ -38,7 +38,7 @@ class HabitForm extends React.Component {
             type: {
                 name: 'daily'
             },
-            startDate: null,
+            startDate: undefined,
             duration: {
                 type: 'day',
                 value: ''
@@ -53,7 +53,7 @@ class HabitForm extends React.Component {
     }
 
     toggle(e) {
-        if (this.state.open && e.target != this.overlay.current) {
+        if (this.state.open && e.target !== this.overlay.current) {
             return;
         }
         
